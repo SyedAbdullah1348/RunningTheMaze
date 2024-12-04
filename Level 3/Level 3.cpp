@@ -20,10 +20,10 @@ int main()
     char arr[17][29];
 
     RectangleShape maze[17][29];
-    
+
     RectangleShape wall(Vector2f(35.f, 35.f)), floor(Vector2f(35.f, 35.f)), start(Vector2f(35.f, 35.f)),
         end(Vector2f(35.f, 35.f)), trap(Vector2f(35.f, 35.f));
-    
+
     CircleShape player(10.f);
 
     // Set initial player position
@@ -44,7 +44,7 @@ int main()
     player.setTexture(&pl);
     trap.setTexture(&firetrap);
 
-    
+
 
     // Load maze from file
     ifstream file("maze.txt");
@@ -54,7 +54,7 @@ int main()
         }
     }
     file.close();
-    
+
 
     // Initialize maze tiles
     for (int i = 0; i < 17; i++) {
@@ -112,29 +112,29 @@ int main()
 
                     // Player positions
                     float playerLeft = player.getPosition().x;
-                    float playerRight = playerLeft + 20; 
+                    float playerRight = playerLeft + 20;
                     float playerTop = player.getPosition().y;
                     float playerBottom = playerTop + 20;
 
                     if (playerRight > wallLeft && playerLeft < wallRight && playerTop < wallBottom && playerBottom > wallTop) {
-                        if (playerLeft < wallRight && playerRight > wallLeft) 
+                        if (playerLeft < wallRight && playerRight > wallLeft)
                         {
-                            if (playerBottom > wallTop && playerTop < wallTop) 
+                            if (playerBottom > wallTop && playerTop < wallTop)
                             {
                                 down = false;
                             }
-                            if (playerTop < wallBottom && playerBottom > wallBottom) 
+                            if (playerTop < wallBottom && playerBottom > wallBottom)
                             {
                                 up = false;
                             }
                         }
-                        if (playerBottom > wallTop && playerTop < wallBottom) 
+                        if (playerBottom > wallTop && playerTop < wallBottom)
                         {
-                            if (playerRight > wallLeft && playerLeft < wallLeft) 
+                            if (playerRight > wallLeft && playerLeft < wallLeft)
                             {
                                 right = false;
                             }
-                            if (playerLeft < wallRight && playerRight > wallRight) 
+                            if (playerLeft < wallRight && playerRight > wallRight)
                             {
                                 left = false;
                             }
@@ -156,7 +156,7 @@ int main()
         {
             cout << "YOU DIED! :(" << endl;
             gameOver = true;
-            
+
         }
 
 
@@ -184,21 +184,44 @@ int main()
 
         // Check win condition
         if (player.getPosition().y + 10 <= 490.f && player.getPosition().y + 10 >= 455.f &&
-            player.getPosition().x + 10 < 840 && player.getPosition().x > 805) 
+            player.getPosition().x + 10 < 840 && player.getPosition().x > 805)
         {
             cout << "NISHAN E AQAL WALON K LIYE KAAFI HAI!!!!" << endl;
             return 0;
         }
 
+        //Jump functionality
+        while (Keyboard::isKeyPressed(Keyboard::Key::Space))
+        {
+            bool left = true, right = true, up = true, down = true;
+            if (right && (Keyboard::isKeyPressed(Keyboard::Key::Right) || Keyboard::isKeyPressed(Keyboard::Key::D)))
+                player.move(3.f, 0.f);
+            if (left && (Keyboard::isKeyPressed(Keyboard::Key::Left) || Keyboard::isKeyPressed(Keyboard::Key::A)))
+                player.move(-3.f, 0.f);
+            if (up && (Keyboard::isKeyPressed(Keyboard::Key::Up) || Keyboard::isKeyPressed(Keyboard::Key::W)))
+                player.move(0.f, -3.f);
+            if (down && (Keyboard::isKeyPressed(Keyboard::Key::Down) || Keyboard::isKeyPressed(Keyboard::Key::S)))
+                player.move(0.f, 3.f);
+            gameplay.clear();
+
+            for (int i = 0; i < 17; i++) {
+                for (int j = 0; j < 29; j++) {
+                    gameplay.draw(maze[i][j]);
+                }
+            }
+
+            gameplay.draw(player);
+            gameplay.display();
+        }
 
         //Pause game
 
-        if (Keyboard::isKeyPressed(Keyboard::Key::Space))
-		{
-			RenderWindow pause(VideoMode(1015, 595), "Paused", Style::Default);
+        /*if (Keyboard::isKeyPressed(Keyboard::Key::Space))
+        {
+            RenderWindow pause(VideoMode(1015, 595), "Paused", Style::Default);
             pause.setFramerateLimit(60);
 
-			while (pause.isOpen())
+            while (pause.isOpen())
             {
                 Event evnt;
                 while (pause.pollEvent(evnt)) {
@@ -215,12 +238,13 @@ int main()
                         pause.close();
                     }
                 }
-				RectangleShape pa(Vector2f(20.f, 20.f));
-			
-				pause.draw(pa);
-				pause.display();
-			}
-		}
-	}
+                RectangleShape pa(Vector2f(20.f, 20.f));
+
+                pause.draw(pa);
+                pause.display();
+            }
+        }*/
+    }
+
     return 0;
 }
