@@ -78,11 +78,11 @@ int main() {
 
 	//----------------------------------------------------------
 	Texture player;
-	player.loadFromFile("Textures/player2.png");
+	player.loadFromFile("Textures/player.png");
 	Sprite playerS;
 	playerS.setTexture(player);
-	const int frameWidth = 460; // image reso was 1841 * 2400 divided each by 4 as 4 by 4 spritesheet
-	const int frameHeight = 600;
+	const int frameWidth = 102; // image reso was 1841 * 2400 divided each by 4 as 4 by 4 spritesheet
+	const int frameHeight = 153;
 	IntRect currentFrame(0, 0, frameWidth, frameHeight); // taking bounds of sprite 
 	playerS.setTextureRect(currentFrame);
 	playerS.setPosition(0, 0); //player initial position 
@@ -282,7 +282,7 @@ int main() {
 	text4.setFillColor(Color::White);
 	text4.setCharacterSize(30);
 	text4.setStyle(Text::Bold);
-	text4.setPosition(8 * tilesize, 12 * tilesize + 2);
+	text4.setPosition(3 * tilesize, 12 * tilesize + 2);
 
 	//---------------------------------------------------
 	//key display
@@ -447,14 +447,14 @@ int main() {
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left)) {
 			PLayernextPosition.x -= tilesize * mov_speed; 
-			Row = 2; 
+			Row = 1; 
 			ani_movement = true;
 			//soundwalk.setLoop(true);
 			soundwalk.play();
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right)) {
 			PLayernextPosition.x += tilesize * mov_speed;
-			Row = 1; 
+			Row = 2; 
 			ani_movement = true;
 			//soundwalk.setLoop(true);
 			soundwalk.play();
@@ -493,7 +493,7 @@ int main() {
 				return 0;
 			}
 			else {
-					text4.setString("YOU NEED 3 KEYS TO WIN");
+					text4.setString("YOU NEED 3 KEYS TO GO TO NEXT LEVEL");
 				}
 			}
 
