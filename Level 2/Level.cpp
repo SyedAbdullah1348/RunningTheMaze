@@ -40,7 +40,7 @@ void readdata2D();
 bool checkCollisionwithwalls(const FloatRect& playerBounds);
 
 int main() {
-
+	int keys = 0;
 	int lives = 2;
 	int playerscore = 0;
 	const float mov_speed = 0.13f;
@@ -149,8 +149,7 @@ int main() {
 	bufferwalk.loadFromFile("Sound/walk.mp3");
 	Sound soundwalk;
 	soundwalk.setBuffer(bufferwalk);
-	bool soundplaywalk = false;
-	
+
 	//-----------------------------------------------
 	//-----------------------------------------------
 	Texture skullcoins;
@@ -176,8 +175,26 @@ int main() {
 		coin.setPosition(pos);
 		coins.push_back(coin);
 	}
+	//-----------------------------------------------------------
+	//------------------------------------------------------
+	Texture key;
+	key.loadFromFile("Textures/key.png");
+	vector<Sprite>keyss;
+	vector<Vector2f>keypos = {
+		{10 * tilesize - 3, 19 * tilesize - 3},
+		{18 * tilesize - 3, 3 * tilesize - 3},
+		{28 * tilesize - 3, 1 * tilesize - 3}
+	};
+	for (const auto& kpos : keypos) {
+		Sprite keyb;
+		keyb.setTexture(key);
+		keyb.setScale((float)(1.1 * tilesize) / key.getSize().x, (float)(1.1 * tilesize) / key.getSize().y);
+		keyb.setPosition(kpos);
+		keyss.push_back(keyb);
+	}
 
 
+	//-------------------------------------------------------
 	//-------------------------------------------------------
 	Texture spookyhands;
 	spookyhands.loadFromFile("Textures/hands.png");
@@ -214,6 +231,7 @@ int main() {
 
 	//text 
 	//------------------------------------------
+	//time
 	Font font;
 	font.loadFromFile("Fonts/ArialTh.ttf");
 	Text text;
@@ -221,8 +239,9 @@ int main() {
 	text.setFillColor(Color::White);
 	text.setCharacterSize(14);
 	text.setStyle(Text::Bold);
-	text.setPosition(20 * tilesize, 25 * tilesize - 1);
+	text.setPosition(25 * tilesize, 25 * tilesize - 1);
 	//---------------------------------------
+	//live
 	Text text2;
 	text2.setFont(font);
 	text2.setFillColor(Color::White);
@@ -231,6 +250,31 @@ int main() {
 	text2.setPosition(1 * tilesize, 25 * tilesize - 1);
 
 	//-------------------------------------------------
+	//score
+	Text text3;
+	text3.setFont(font);
+	text3.setFillColor(Color::White);
+	text3.setCharacterSize(14);
+	text3.setStyle(Text::Bold);
+	text3.setPosition(8 * tilesize, 25 * tilesize - 1);
+	//---------------------------------------------------
+	//message
+	Text text4;
+	text4.setFont(font);
+	text4.setFillColor(Color::White);
+	text4.setCharacterSize(30);
+	text4.setStyle(Text::Bold);
+	text4.setPosition(8 * tilesize, 12 * tilesize + 2);
+
+	//---------------------------------------------------
+	//key display
+	Text text5;
+	text5.setFont(font);
+	text5.setFillColor(Color::White);
+	text5.setCharacterSize(14);
+	text5.setStyle(Text::Bold);
+	text5.setPosition( 18 * tilesize, 25 * tilesize - 1);
+
 	//---------------------------------------------------
 	Clock timer;
 	//------------------------------------------------
@@ -247,13 +291,16 @@ int main() {
 		//adding time + text and font
 		//float deltafiretime = clock.restart().asSeconds();
 		float dt = clock.restart().asSeconds();
-		float temp = dt;
 		Time elapsed = timer.getElapsedTime();
 		float timevalue = round(elapsed.asSeconds() * 100.0f) / 100.0f;
 		string stringn = to_string(timevalue);
 		text.setString("Time: " + stringn);
 		string lives1 = to_string(lives);
 		text2.setString("Lives: " + lives1);
+		string score = to_string(playerscore);
+		text3.setString("Score:" + score);
+		string keystr = to_string(keys);
+		text5.setString("Keys:" + keystr);
 		//------------------------------------------------------------------------------
 		//-----------------------------------------------------------------------------
 		// Update fire effects logic 
@@ -302,6 +349,12 @@ int main() {
 				if (playerS.getGlobalBounds().intersects(skullcoins.getGlobalBounds())) {
 					skullcoins.setPosition(-100, -100);
 					playerscore += 100;
+				}
+			}
+			for (auto& key : keyss) {
+				if (playerS.getGlobalBounds().intersects(key.getGlobalBounds())) {
+					key.setPosition(-100, -100);
+					keys++;
 				}
 			}
 
@@ -413,10 +466,15 @@ int main() {
 		WINLOC.x = 29 * tilesize;
 		WINLOC.y = 24 * tilesize;
 		if (playerS.getPosition() == WINLOC) {
-			cout << "You won";
-			cout << "Your score is " << playerscore;
-			return 0;
-		}
+			if (keys==3) {
+				cout << "You won";
+				cout << "Your score is " << playerscore;
+				return 0;
+			}
+			else {
+					text4.setString("YOU NEED 3 KEYS TO WIN");
+				}
+			}
 
 		/*if (player.getGlobalBounds().intersects(Coinb.getGlobalBounds())) {
 			Coinb.setPosition(-100, -100);
@@ -479,6 +537,9 @@ int main() {
 		for (const auto& skullcoins : coins) {
 			window.draw(skullcoins);
 		}
+		for (const auto& key : keyss) {
+			window.draw(key);
+		}
 		//-------------------------------------------------------------
 		//-------------------------------------------------------------
 		//Ghost reappearence logic
@@ -539,6 +600,11 @@ int main() {
 		window.draw(text);
 		window.draw(skull2b);
 		window.draw(text2);
+		window.draw(text3);
+		if (playerS.getPosition().x == 29*tilesize && playerS.getPosition().y == 24*tilesize) {
+			window.draw(text4);
+		}
+		window.draw(text5);
 		window.draw(playerS);
 		window.display();
 	}
