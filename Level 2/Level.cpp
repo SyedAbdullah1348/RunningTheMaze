@@ -141,7 +141,9 @@ int main() {
 	Sound soundfire;
 	soundfire.setBuffer(bufferfire);
 	bool soundplayfire = false;
+	//Clock deltafiretime;
 	//bool soundplay = false;
+	
 	//-----------------------------------------------
 	//-----------------------------------------------
 	Texture skullcoins;
@@ -236,9 +238,9 @@ int main() {
 		//-----------------------------------------------------------
 		//------------------------------------------------------------
 		//adding time + text and font
-
+		//float deltafiretime = clock.restart().asSeconds();
 		float dt = clock.restart().asSeconds();
-
+		float temp = dt;
 		Time elapsed = timer.getElapsedTime();
 		float timevalue = round(elapsed.asSeconds() * 100.0f) / 100.0f;
 		string stringn = to_string(timevalue);
@@ -447,14 +449,16 @@ int main() {
 		}
 		//soundplayfire = false;
 		for (const auto& fire : fireEffects) {
-			soundplayfire = false;
+			//soundplayfire = false;
 			for (const auto& p : fire.particles) {
 				window.draw(p.shape);
+				if (soundplayfire == false) {
+					soundfire.setLoop(true);
+					soundfire.play();
+					soundplayfire = true;
+				}
 			}
-			if (soundplayfire == false) {
-				soundfire.play();
-				soundplayfire = true;
-			}
+			
 		}
 		for (const auto& skullcoins : coins) {
 			window.draw(skullcoins);
@@ -503,6 +507,7 @@ int main() {
 			else
 				soundplay = false;
 		}
+		
 		if (playerS.getPosition().x >= 9.0 * tilesize && playerS.getPosition().x <= 9.9 * tilesize && (playerS.getPosition().y >= 21.0 * tilesize && playerS.getPosition().y <= 21.9 * tilesize)) {
 			ghostb.setPosition(9 * tilesize, 18 * tilesize);
 			window.draw(ghostb);
