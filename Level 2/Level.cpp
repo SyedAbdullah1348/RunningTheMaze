@@ -447,7 +447,7 @@ int main() {
 		}
 		//soundplayfire = false;
 		for (const auto& fire : fireEffects) {
-			//soundplayfire = false;
+			soundplayfire = false;
 			for (const auto& p : fire.particles) {
 				window.draw(p.shape);
 			}
