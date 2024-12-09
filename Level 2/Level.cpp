@@ -348,23 +348,23 @@ int main() {
 		Vector2f PLayernextPosition = PlayerCurrentPosition;
 
 		if (Keyboard::isKeyPressed(Keyboard::Up)) {
-			PLayernextPosition.y -= tilesize * mov_speed; // Move up
-			Row = 3; // Assuming the upward animation is in row 3
+			PLayernextPosition.y -= tilesize * mov_speed; 
+			Row = 3; 
 			ani_movement = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Down)) {
-			PLayernextPosition.y += tilesize * mov_speed; // Move down
-			Row = 0; // Assuming the upward animation is in row 3
+			PLayernextPosition.y += tilesize * mov_speed; 
+			Row = 0; 
 			ani_movement = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left)) {
-			PLayernextPosition.x -= tilesize * mov_speed; // Move left
-			Row = 2; // Assuming the upward animation is in row 3
+			PLayernextPosition.x -= tilesize * mov_speed; 
+			Row = 2; 
 			ani_movement = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right)) {
-			PLayernextPosition.x += tilesize * mov_speed; // Move right
-			Row = 1; // Assuming the upward animation is in row 3
+			PLayernextPosition.x += tilesize * mov_speed;
+			Row = 1; 
 			ani_movement = true;
 		}
 		//updating the position now
@@ -417,14 +417,14 @@ int main() {
 				// Advance to the next frame
 				elapsedAnimationTime = 0.0f;
 				Column = (Column + 1) % 4; // Loop through columns (4 frames per row)
-				currentFrame = sf::IntRect(Column * frameWidth, Row * frameHeight, frameWidth, frameHeight);
+				currentFrame = IntRect(Column * frameWidth, Row * frameHeight, frameWidth, frameHeight);
 				playerS.setTextureRect(currentFrame);
 			}
 		}
 		else {
-			// Reset to the first frame of the current row when not moving
+			
 			Column = 0;
-			currentFrame = sf::IntRect(Column * frameWidth, Row * frameHeight, frameWidth, frameHeight);
+			currentFrame = IntRect(Column * frameWidth, Row * frameHeight, frameWidth, frameHeight);
 			playerS.setTextureRect(currentFrame);
 		}
 
@@ -548,16 +548,15 @@ void MazeMaking(RenderWindow& window, RectangleShape& rect, Texture& backTex) {
 	}
 }
 bool checkCollisionwithwalls(const FloatRect& playerBounds) {
-	// Iterate through the maze to check if the player collides with any wall
 	for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
-			if (arr[i][j] == 'b') { // Only check for wall tiles
+			if (arr[i][j] == 'b') { 
 				FloatRect wallBounds(j * tilesize, i * tilesize, tilesize, tilesize);
 				if (playerBounds.intersects(wallBounds)) {
-					return true; // Collision detected
+					return true;
 				}
 			}
 		}
 	}
-	return false; // No collision
+	return false; 
 }
