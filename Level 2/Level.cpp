@@ -43,7 +43,7 @@ int main() {
 	int keys = 0;
 	int lives = 2;
 	int playerscore = 0;
-	const float mov_speed = 0.13f;
+	const float mov_speed = 0.1f;
 	RenderWindow window(VideoMode(c * tilesize, r * tilesize + 30.0f), "Maze Runner Level 2");
 	window.setFramerateLimit(60);
 
@@ -130,7 +130,7 @@ int main() {
 	// sound of ghosts
 
 	SoundBuffer buffer;
-	buffer.loadFromFile("Sound/boo.wav");
+	buffer.loadFromFile("Sound/boo.mp3");
 	Sound sound;
 	sound.setBuffer(buffer);
 	bool soundplay = false;
@@ -149,6 +149,24 @@ int main() {
 	bufferwalk.loadFromFile("Sound/walk.mp3");
 	Sound soundwalk;
 	soundwalk.setBuffer(bufferwalk);
+
+	//sound of keys
+	SoundBuffer buffercollect;
+	buffercollect.loadFromFile("Sound/collect.mp3");
+	Sound soundcollect;
+	soundcollect.setBuffer(buffercollect);
+
+	//sound of skullcoin
+	SoundBuffer buffercoin;
+	buffercoin.loadFromFile("Sound/coin.mp3");
+	Sound soundcoin;
+	soundcoin.setBuffer(buffercoin);
+
+	//sound of dying
+	SoundBuffer bufferdie;
+	bufferdie.loadFromFile("Sound/die.mp3");
+	Sound sounddie;
+	sounddie.setBuffer(bufferdie);
 
 	//-----------------------------------------------
 	//-----------------------------------------------
@@ -349,12 +367,14 @@ int main() {
 				if (playerS.getGlobalBounds().intersects(skullcoins.getGlobalBounds())) {
 					skullcoins.setPosition(-100, -100);
 					playerscore += 100;
+					soundcoin.play();
 				}
 			}
 			for (auto& key : keyss) {
 				if (playerS.getGlobalBounds().intersects(key.getGlobalBounds())) {
 					key.setPosition(-100, -100);
 					keys++;
+					soundcollect.play();
 				}
 			}
 
@@ -390,6 +410,7 @@ int main() {
 				}
 
 				if (playerS.getGlobalBounds().intersects(p.shape.getGlobalBounds())) {
+					sounddie.play();
 					if (lives == 0) {
 						cout << "Game over";
 						return 0;
