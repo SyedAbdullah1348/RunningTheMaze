@@ -143,6 +143,13 @@ int main() {
 	bool soundplayfire = false;
 	//Clock deltafiretime;
 	//bool soundplay = false;
+
+	//sound of walking
+	SoundBuffer bufferwalk;
+	bufferwalk.loadFromFile("Sound/walk.mp3");
+	Sound soundwalk;
+	soundwalk.setBuffer(bufferwalk);
+	bool soundplaywalk = false;
 	
 	//-----------------------------------------------
 	//-----------------------------------------------
@@ -353,21 +360,30 @@ int main() {
 			PLayernextPosition.y -= tilesize * mov_speed; 
 			Row = 3; 
 			ani_movement = true;
+			//soundwalk.setLoop(true);
+			soundwalk.play();
+			
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Down)) {
 			PLayernextPosition.y += tilesize * mov_speed; 
 			Row = 0; 
 			ani_movement = true;
+			//soundwalk.setLoop(true);
+			soundwalk.play();
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left)) {
 			PLayernextPosition.x -= tilesize * mov_speed; 
 			Row = 2; 
 			ani_movement = true;
+			//soundwalk.setLoop(true);
+			soundwalk.play();
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right)) {
 			PLayernextPosition.x += tilesize * mov_speed;
 			Row = 1; 
 			ani_movement = true;
+			//soundwalk.setLoop(true);
+			soundwalk.play();
 		}
 		//updating the position now
 	   //------------------------------------------------------------------------------
