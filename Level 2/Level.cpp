@@ -60,7 +60,7 @@ int main() {
 	};
 
 	// Predefined attributes
-	float velocities[][2] = {
+	float velocities[5][2] = {
 		{50.0f, -10.0f}, {60.0f, -5.0f}, {70.0f, 0.0f}, {60.0f, 5.0f}, {50.0f, 10.0f} };
 	Color colors[] = { Color::Red, Color::Red, Color::Red };
 	const float fireOnDuration = 2.0f;  // Fire active for 2 seconds
@@ -393,7 +393,7 @@ int main() {
 				// This part focuses on fading the color
 				if (currentColor.a > 0) {
 					float newAlpha = currentColor.a - (255 * dt);
-					newAlpha = std::max(0.0f, newAlpha);
+					newAlpha = max(0.0f, newAlpha);
 					currentColor.a = newAlpha;
 				}
 				p.shape.setFillColor(currentColor);
