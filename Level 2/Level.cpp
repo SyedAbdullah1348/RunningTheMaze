@@ -411,6 +411,7 @@ int main() {
 
 				if (playerS.getGlobalBounds().intersects(p.shape.getGlobalBounds())) {
 					sounddie.play();
+					playerscore = playerscore -100;
 					if (lives == 0) {
 						cout << "Game over";
 						return 0;
